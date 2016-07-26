@@ -28,6 +28,7 @@ import org.openmrs.module.metadatamapping.MetadataSource;
 import org.openmrs.module.metadatamapping.MetadataTermMapping;
 import org.openmrs.module.metadatamapping.api.exception.InvalidMetadataTypeException;
 import org.openmrs.module.metadatamapping.api.wrapper.ConceptAdapter;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * The service.
@@ -240,7 +241,18 @@ public interface MetadataMappingService {
 	 */
 	@Authorized()
 	List<MetadataSource> getMetadataSources(boolean includeRetired);
-	
+
+	/**
+	 * Returns the count of concept reference terms that match the specified arguments
+	 *
+	 * @param start start index of the batch
+	 * @param limit max number of metadata sources in the batch
+	 * @param includeRetired specifies if retired metadata sources should be included
+	 * @return list of metadata sources
+	 */
+	@Authorized()
+	List<MetadataSource> getMetadataSources(Integer start, Integer limit, boolean includeRetired);
+
 	/**
 	 * Get metadata source with the given id.
 	 * @param metadataSourceId database id of the object
@@ -267,6 +279,13 @@ public interface MetadataMappingService {
 	 */
 	@Authorized()
 	MetadataSource getMetadataSourceByName(String metadataSourceName);
+
+	/**
+	 * @param includeRetired specifies if retired metadata sources should be included
+	 * @return number of metadata sources matching specified arguments
+	 */
+	@Authorized()
+	Long getCountOfMetadataSource(boolean includeRetired);
 	
 	/**
 	 * Retire the object and set required info via an AOP injected method.

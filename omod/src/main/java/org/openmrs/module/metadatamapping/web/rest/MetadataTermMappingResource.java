@@ -31,7 +31,7 @@ import org.openmrs.module.webservices.rest.web.response.ResourceDoesNotSupportOp
 import org.openmrs.module.webservices.rest.web.response.ResponseException;
 
 @Resource(name = RestConstants.VERSION_1 + MetadataMappingRestController.METADATA_MAPPING_REST_NAMESPACE
-        + "/metadatatermmapping", supportedClass = MetadataTermMapping.class, supportedOpenmrsVersions = { "1.9.*",
+        + "/term", supportedClass = MetadataTermMapping.class, supportedOpenmrsVersions = { "1.9.*",
         "1.10.*", "1.11.*", "1.12.*", "2.0.*" })
 public class MetadataTermMappingResource extends MetadataDelegatingCrudResource<MetadataTermMapping> {
 	
@@ -234,10 +234,10 @@ public class MetadataTermMappingResource extends MetadataDelegatingCrudResource<
 		
 		boolean hasMore = false;
 		searchCriteriaBuilder.setFirstResult(firstResult).setMaxResults(maxResults + 1)
-		        .createMetadataTermMappingSearchCriteria();
+		        .build();
 		
 		List<MetadataTermMapping> metadataTermMappings = getService().getMetadataTermMappings(
-		    searchCriteriaBuilder.createMetadataTermMappingSearchCriteria());
+		    searchCriteriaBuilder.build());
 		if (metadataTermMappings.size() > maxResults) {
 			hasMore = true;
 			metadataTermMappings = metadataTermMappings.subList(0, maxResults);

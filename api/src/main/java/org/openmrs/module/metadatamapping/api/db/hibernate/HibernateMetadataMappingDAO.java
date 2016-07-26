@@ -21,6 +21,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.openmrs.Concept;
 import org.openmrs.OpenmrsMetadata;
@@ -78,6 +79,23 @@ public class HibernateMetadataMappingDAO implements MetadataMappingDAO {
 		criteria.addOrder(Order.asc("id"));
 		return criteria.list();
 	}
+
+	@Override
+	public List<MetadataSource> getMetadataSources(Integer start, Integer limit, boolean includeRetired) {
+		Criteria criteria = getCurrentSession().createCriteria(MetadataSource.class);
+		if (!includeRetired) {
+			criteria.add(Restrictions.eq("retired", false));
+		}
+		criteria.addOrder(Order.asc("name"));
+		criteria.addOrder(Order.asc("id"));
+		if(start != null){
+			criteria.setFirstResult(start);
+		}
+		if(limit != null && limit > 0){
+			criteria.setFetchSize(limit);
+		}
+		return criteria.list();
+	}
 	
 	@Override
 	public MetadataSource getMetadataSource(Integer metadataSourceId) {
@@ -89,6 +107,17 @@ public class HibernateMetadataMappingDAO implements MetadataMappingDAO {
 		Criteria criteria = getCurrentSession().createCriteria(MetadataSource.class);
 		criteria.add(Restrictions.eq("name", metadataSourceName));
 		return (MetadataSource) criteria.uniqueResult();
+
+	}
+
+	@Override
+	public Long getCountOfMetadataSource(boolean includeRetired){
+		Criteria criteria = getCurrentSession().createCriteria(MetadataSource.class);
+		if (!includeRetired) {
+			criteria.add(Restrictions.eq("retired", false));
+		}
+		criteria.setProjection(Projections.rowCount());
+		return (Long) criteria.uniqueResult();
 	}
 	
 	@Override

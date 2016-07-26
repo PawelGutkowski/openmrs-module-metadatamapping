@@ -345,13 +345,19 @@ public class MetadataMappingServiceImpl extends BaseOpenmrsService implements Me
 	public List<MetadataSource> getMetadataSources(boolean includeRetired) {
 		return dao.getMetadataSources(includeRetired);
 	}
-	
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<MetadataSource> getMetadataSources(Integer start, Integer limit, boolean includeRetired) {
+		return dao.getMetadataSources(start, limit, includeRetired);
+	}
+
 	@Override
 	@Transactional(readOnly = true)
 	public MetadataSource getMetadataSource(Integer metadataSourceId) {
 		return dao.getMetadataSource(metadataSourceId);
 	}
-	
+
 	@Override
 	@Transactional(readOnly = true)
 	public MetadataSource getMetadataSourceByUuid(String metadataSourceUuid) {
@@ -370,7 +376,13 @@ public class MetadataMappingServiceImpl extends BaseOpenmrsService implements Me
 		// Required values are already set by the injected BaseRetireHandler.
 		return dao.saveMetadataSource(metadataSource);
 	}
-	
+
+	@Override
+	@Transactional
+	public Long getCountOfMetadataSource(boolean includeRetired) {
+		return dao.getCountOfMetadataSource(includeRetired);
+	}
+
 	@Override
 	@Transactional
 	public MetadataTermMapping saveMetadataTermMapping(MetadataTermMapping metadataTermMapping) {
@@ -405,7 +417,7 @@ public class MetadataMappingServiceImpl extends BaseOpenmrsService implements Me
 	@Transactional(readOnly = true)
 	public List<MetadataTermMapping> getMetadataTermMappings(OpenmrsMetadata referredObject) {
 		MetadataTermMappingSearchCriteria searchCriteria = new MetadataTermMappingSearchCriteriaBuilder().setIncludeAll(
-		    false).setReferredObject(referredObject).createMetadataTermMappingSearchCriteria();
+		    false).setReferredObject(referredObject).build();
 		return dao.getMetadataTermMappings(searchCriteria);
 	}
 	
@@ -426,7 +438,7 @@ public class MetadataMappingServiceImpl extends BaseOpenmrsService implements Me
 	@Transactional(readOnly = true)
 	public List<MetadataTermMapping> getMetadataTermMappings(MetadataSource metadataSource) {
 		MetadataTermMappingSearchCriteria searchCriteria = new MetadataTermMappingSearchCriteriaBuilder().setIncludeAll(
-		    false).setMetadataSource(metadataSource).createMetadataTermMappingSearchCriteria();
+		    false).setMetadataSource(metadataSource).build();
 		return dao.getMetadataTermMappings(searchCriteria);
 	}
 	

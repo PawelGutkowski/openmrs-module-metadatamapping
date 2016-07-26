@@ -16,16 +16,13 @@ import org.openmrs.module.webservices.rest.web.resource.impl.MetadataDelegatingC
 import org.openmrs.module.webservices.rest.web.resource.impl.NeedsPaging;
 import org.openmrs.module.webservices.rest.web.response.ResponseException;
 
-@Resource(name = RestConstants.VERSION_1 + MetadataMappingRestController.METADATA_MAPPING_REST_NAMESPACE + "/metadatasource", supportedClass = MetadataSource.class, supportedOpenmrsVersions = {
+@Resource(name = RestConstants.VERSION_1 + MetadataMappingRestController.METADATA_MAPPING_REST_NAMESPACE + "/source", supportedClass = MetadataSource.class, supportedOpenmrsVersions = {
         "1.9.*", "1.10.*", "1.11.*", "1.12.*", "2.0.*" })
 public class MetadataSourceResource extends MetadataDelegatingCrudResource<MetadataSource> {
 	
 	@Override
 	public MetadataSource getByUniqueId(String uniqueId) {
 		MetadataSource metadataSource = getService().getMetadataSourceByUuid(uniqueId);
-		if (metadataSource == null) {
-			metadataSource = getService().getMetadataSourceByName(uniqueId);
-		}
 		return metadataSource;
 	}
 	

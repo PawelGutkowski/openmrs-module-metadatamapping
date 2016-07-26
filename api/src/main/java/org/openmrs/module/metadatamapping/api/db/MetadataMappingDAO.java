@@ -50,7 +50,17 @@ public interface MetadataMappingDAO {
 	 * @return list of metadata source
 	 */
 	List<MetadataSource> getMetadataSources(boolean includeRetired);
-	
+
+	/**
+	 * Returns the count of concept reference terms that match the specified arguments
+	 *
+	 * @param start start index of the batch
+	 * @param limit max number of metadata sources in the batch
+	 * @param includeRetired specifies if retired metadata sources should be included
+     * @return list of metadata sources
+     */
+	List<MetadataSource> getMetadataSources(Integer start, Integer limit, boolean includeRetired);
+
 	/**
 	 * Get metadata source with the given id.
 	 * @param metadataSourceId database id of the object
@@ -64,7 +74,13 @@ public interface MetadataMappingDAO {
 	 * @return object or null, if does not exist
 	 */
 	MetadataSource getMetadataSourceByName(String metadataSourceName);
-	
+
+	/**
+	 * @param includeRetired specifies if retired metadata sources should be included
+	 * @return number of metadata sources matching specified arguments
+     */
+	Long getCountOfMetadataSource(boolean includeRetired);
+
 	/**
 	 * Save a new metadata term mapping or update an existing one.
 	 * @param metadataTermMapping object to save

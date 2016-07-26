@@ -257,7 +257,7 @@ public class MetadataTermMappingResourceOperationTest extends MainResourceContro
 	
 	@Override
 	public String getURI() {
-		return "/metadatamapping/metadatatermmapping";
+		return "/metadatamapping/term";
 	}
 	
 	@Override
